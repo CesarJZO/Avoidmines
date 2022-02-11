@@ -4,22 +4,25 @@ import java.util.Scanner;
  * @version 1.0
  */
 public class Main {
-    public static char [][] muestraMapa(char[][]mapa)
+    /**
+     * Este método agarra una matriz de caracteres y la muestra por consola
+     * @param mapa Matriz de caracteres
+     */
+    public static void muestraMapa(char[][]mapa)
     {
         int ren, col;
         for(ren = 0; ren < mapa.length; ren++)
         {
-            System.out.println("");
+            System.out.println();
             for(col = 0; col < mapa[ren].length; col++)
                 System.out.print(mapa[ren][col] + " ");
         }
-        return mapa;
     }
     public static void main(String [] args)
     {
         Scanner lector = new Scanner(System.in);
         int ren = 10, col = 10, i, numMinas = 15, numBonus = 5, rango = 10, contBonus = 0;
-        char camino = '-', mina = '*', bonus = 'o', jugador = 'J', direccion, retry;
+        char camino = '-', mina = '*', bonus = 'o', jugador = 'J', direccion;
         char [][] mapa = new char[ren][col];
         boolean colision = false, ganar = false, perder = false;
         for(ren = 0; ren < mapa.length; ren++) // Llena una matriz con puros guiones (caracteres).
@@ -46,10 +49,13 @@ public class Main {
 
         System.out.println("Utiliza wasd para moverte.");
         muestraMapa(mapa); // Muestra el mapa por primera vez
-        System.out.print("\nEste (J) eres tú. Esas (*) son las minas, evítalas." + "\n¡Ah! consigue todos los objetos (o) para ganar.");
-        while (colision == false)
+        System.out.print("""
+
+                Este (J) eres tú. Esas (*) son las minas, evítalas.
+                ¡Ah! consigue todos los objetos (o) para ganar.""");
+        while (!colision)
         {
-            direccion = lector.next().charAt(0); //Lee un caracter del teclado
+            direccion = lector.next().charAt(0); //Lee un carácter del teclado
             if(direccion == 'w' || direccion == 'a' || direccion == 's' || direccion == 'd')
             {
                 if (direccion == 'w' && ren !=0) //Ir a arriba
@@ -79,15 +85,15 @@ public class Main {
                 perder = true;
             if (contBonus == numBonus)
                 ganar = true;
-            if (ganar == true || perder == true)
+            if (ganar || perder)
                 colision = true;
             mapa[ren][col] = jugador;
             System.out.println("Utiliza wasd para moverte.");
             muestraMapa(mapa);
         }
-        if(perder == true)
+        if(perder)
             System.out.print(" Perdiste.");
-        if(ganar == true)
+        if(ganar)
             System.out.print(" ¡Ganaste!");
     }
 }
